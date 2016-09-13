@@ -1,0 +1,4 @@
+Status,Age Group,Age,Total, Percent,Proportion
+Survived,middle_age,20 to 50 Years,238,38,0.38
+Survived,old_age,Over 50 Years,22,34,0.34
+Survived,younger_age,Below 20 Years,82,46,0.46

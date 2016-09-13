@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+    <style>
+    h1,
+    body {
+        text-align: center;
+        color: #252525;
+        font: sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    </style>
+</head>
+
+<body>
+
+
+    <div id='chartContainer'>
+        <h1>TITANIC: HIGH RATE OF SURVIVAL FOR YOUNG PEOPLE </h1>
+
+        <script type="text/javascript">
+        var svg = dimple.newSvg('#chartContainer', 600, 400);
+        //Import Dataset
+        d3.csv('Data_1.csv', function(data) {
+            var myChart = new dimple.chart(svg, data);
+            //Setting boundaries
+            myChart.setBounds(60, 30, 510, 305);
+            //Setting X and Y axis
+            var x = myChart.addCategoryAxis('x', 'Age');
+            x.addOrderRule(['Below 20 Years', '20 to 50 Years', 'Over 50 Years']);
+            var y = myChart.addMeasureAxis('y', ' Percent');
+
+            //Status: Survived or Died
+            var s = myChart.addSeries("Status", dimple.plot.bar);
+            //Legend
+            myChart.addLegend(60, 10, 510, 20, "right");
+
+            //Colors
+            myChart.defaultColors = [
+                new dimple.color("#005a32"),
+                new dimple.color("#41ab5d")
+            ];
+
+
+            // Data Labels
+            s.afterDraw = function(shape, data) {
+                // Get the shape as a d3 selection
+                var s = d3.select(shape),
+                    rect = {
+                        x: parseFloat(s.attr("x")),
+                        y: parseFloat(s.attr("y")),
+                        width: parseFloat(s.attr("width")),
+                        height: parseFloat(s.attr("height"))
+                    };
+
+                // Only label bars where the text can fit
+                if (rect.height >= 8) {
+                    // Add a text label for the value
+                    svg.append("text")
+                        // Position in the centre of the shape
+                        .attr("x", rect.x + rect.width / 2)
+                        .attr("y", rect.y + rect.height / 2 + 3.5)
+                        // Align center
+                        .style("text-anchor", "middle")
+                        .style("font-size", "12px")
+                        .style("font-family", "sans-serif")
+                        .style("fill", "white")
+                        .text((data.yValue) + '%')
+
+                }
+
+            };
+
+            //Draw Chart
+            myChart.draw(5000);
+        });
+        </script>
+</body>
+
+</html>

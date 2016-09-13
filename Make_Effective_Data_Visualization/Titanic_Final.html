@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+    <style>
+    h1,
+    body {
+        text-align: center;
+        color: #252525;
+        font: sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="chartContainer">
+        <h1>TITANIC: HIGH RATE OF SURVIVAL FOR YOUNG PEOPLE </h1>
+        <script type="text/javascript">
+        var svg = dimple.newSvg("#chartContainer", 600, 400);
+        //Import Dataset
+        d3.csv("Data_2.csv", function(data) {
+            myChart = new dimple.chart(svg, data),
+                //Setting boundaries
+                myChart.setBounds(60, 30, 510, 305);
+            //Setting X and Y axis
+            xAxis = myChart.addCategoryAxis('x', ['Age']),
+                xAxis.addOrderRule(['Below 20 Years', '20 to 50 Years', 'Over 50 Years']);
+            yAxis = myChart.addMeasureAxis('y', ' Percent'),
+                mySeries = myChart.addSeries('Age', dimple.plot.bar);
+
+            //Colors
+            myChart.defaultColors = [
+                new dimple.color("#043840"),
+                new dimple.color("#0b8da2"),
+                new dimple.color("#0b8da2"),
+
+            ];
+
+
+            myChart.draw(5000);
+
+
+        });
+        </script>
+    </div>
+
+</html>
